@@ -1,0 +1,69 @@
+Notebook[{Cell[
+BoxData[RowBox[{RowBox[{"(*"," ",RowBox[{RowBox[{RowBox[{"--",RowBox[
+{"-"," ","Continue"}]}]," ","from"," ","your"," ","Plead"," ","and"," ",RowBox[{"xDef"," ","--"}]}],"-"}]," ","*)"}],"\n",RowBox[
+{RowBox[{"ClearAll","[",RowBox[{"rho",","," ","expo",","," ","nStar",","," ","KStar",","," ","Pofrho"}],"]"}],";"}]}]],
+"Input",CellLabel -> "In[12]:= ",ExpressionUUID -> "9c9191ca-d04e-4cef-b2a9-f82ac4a907b1"],Cell[
+BoxData[
+RowBox[{RowBox[{"(*"," ",RowBox[{"E\:011fer"," ","Plead"," ","ve"," ","xDef"," ","zaten"," ","tan\[DotlessI]ml\[DotlessI]ysa"," ","bunlar"," ","yeterli"}]," ","*)"}],"\n",RowBox[
+{"(*"," ",RowBox[{RowBox[{RowBox[{"xDef"," ","="," ",RowBox[{"x"," ","->"," ",RowBox[
+{RowBox[{"(",RowBox[{"rho","/","D"}],")"}],"^",RowBox[{"(",RowBox[{"1","/","q"}],")"}]}]}]}],";"}],"  ","<",RowBox[
+{RowBox[{"--"," ","biz"}]," ","rho"," ","ile"," ","yeniden"," ","yap\[DotlessI]yoruz"}]}]," ","*)"}]}]],
+"Input",CellLabel -> "In[13]:= ",ExpressionUUID -> "abb714c4-cf5f-41eb-be25-8b10257c03ae"],Cell[
+BoxData[
+RowBox[{RowBox[{"xDef2"," ","="," ",RowBox[{"x"," ","->"," ",RowBox[{RowBox[{"(",RowBox[
+{"rho","/","D"}],")"}],"^",RowBox[{"(",RowBox[{"1","/","q"}],")"}]}]}]}],";"}]],"Input",
+CellLabel -> "In[14]:= ",ExpressionUUID -> "e4168fb6-411f-4ee3-920e-1faf7ec3982a"],Cell[
+CellGroupData[
+{Cell[
+BoxData[{RowBox[{RowBox[{"Pofrho"," ","="," ",RowBox[{"FullSimplify","[",RowBox[
+{RowBox[{"Plead"," ","/."," ","xDef2"}],","," ",RowBox[{"Assumptions"," ","->"," ",RowBox[
+{RowBox[{"rho"," ",">"," ","0"}]," ","&&"," ",RowBox[{"D"," ",">"," ","0"}]," ","&&"," ",RowBox[
+{"q"," ",">"," ","0"}]}]}]}],"]"}]}],";"}],"\n",RowBox[{RowBox[{"Print","[",RowBox[
+{"\"Leading P(rho): \"",","," ","Pofrho"}],"]"}],";"}]}],"Input",CellLabel -> "In[15]:= ",
+ExpressionUUID -> "0dad7aad-ba67-45d2-b57f-d7c5d695a78f"],Cell[
+BoxData[InterpretationBox[
+RowBox[{"\"Leading P(rho): \"","\[InvisibleSpace]",RowBox[{FractionBox["8","5"]," ","C"," ",SuperscriptBox[
+RowBox[{"(",FractionBox["rho","D"],")"}],RowBox[{"5","/","q"}]]}]}],SequenceForm[
+"Leading P(rho): ",Times[Rational[8,5],C,Power[Times[Power[D,-1],rho],Times[5,Power[
+q,-1]]]]],Editable -> False],StandardForm],"Print",ExpressionUUID -> "3d77aea0-bf7e-48d2-bb7c-304f1ba14bbe"]},
+Open],ExpressionUUID -> "885ff82f-2a02-43d4-ac7b-42a1b9a4d2e3"],Cell[
+CellGroupData[
+{Cell[
+BoxData[{RowBox[{RowBox[{"(*"," ",RowBox[{"exponent"," ","of"," ","rho"," ","in"," ","Pofrho"}]," ","*)"}],"\n",RowBox[
+{RowBox[{"expo"," ","="," ",RowBox[{"Exponent","[",RowBox[{RowBox[{"Pofrho"," ","/."," ",RowBox[
+{"{",RowBox[{RowBox[{"C"," ","->"," ","1"}],","," ",RowBox[{"D"," ","->"," ","1"}]}],"}"}]}],","," ","rho"}],"]"}]}],";"}]}],"\n",RowBox[
+{RowBox[{"Print","[",RowBox[{"\"Exponent of rho in leading term: \"",","," ","expo"}],"]"}],";"}]}],
+"Input",CellLabel -> "In[17]:= ",ExpressionUUID -> "55794172-f7a4-4411-acd3-8ec7603cafd3"],Cell[
+BoxData[
+InterpretationBox[RowBox[{"\"Exponent of rho in leading term: \"","\[InvisibleSpace]",FractionBox[
+"5","q"]}],SequenceForm["Exponent of rho in leading term: ",Times[5,Power[q,-1]]],
+Editable -> False],StandardForm],"Print",ExpressionUUID -> "1a6a2aee-d05b-4b9c-8312-39a65320813e"]},
+Open],ExpressionUUID -> "a14ee49d-65d8-4310-9fa2-3588ebabe353"],Cell[
+CellGroupData[
+{Cell[
+BoxData[{RowBox[{RowBox[{"(*"," ",RowBox[{RowBox[{RowBox[{"Solve"," ","1"}]," ","+"," ",RowBox[
+{RowBox[{"1","/","n"}],"*"}]}]," ","="," ","expo"}]," ","*)"}],"\n",RowBox[{RowBox[
+{"nStar"," ","="," ",RowBox[{"FullSimplify","[",RowBox[{"1","/",RowBox[{"(",RowBox[
+{"expo"," ","-"," ","1"}],")"}]}],"]"}]}],";"}]}],"\n",RowBox[{RowBox[{"Print","[",RowBox[
+{"\"n* = \"",","," ","nStar"}],"]"}],";"}]}],"Input",CellLabel -> "In[19]:= ",ExpressionUUID -> "a61c42e6-8b48-4483-bc6b-6202ab0191ee"],Cell[
+BoxData[
+InterpretationBox[RowBox[{"\"n* = \"","\[InvisibleSpace]",FractionBox["q",RowBox[
+{"5","-","q"}]]}],SequenceForm["n* = ",Times[Power[Plus[5,Times[-1,q]],-1],q]],Editable -> False],
+StandardForm],"Print",ExpressionUUID -> "39003cde-43e0-4a20-87b2-84f7dc120769"]},
+Open],ExpressionUUID -> "383b9c64-47c4-457d-9d52-c9b86145da31"],Cell[
+CellGroupData[
+{Cell[
+BoxData[{RowBox[{RowBox[{"(*"," ",RowBox[{"Solve"," ","for"," ","K","*"}]," ","*)"}],"\n",RowBox[
+{RowBox[{"KStar"," ","="," ",RowBox[{"FullSimplify","[","\n","  ",RowBox[{RowBox[
+{"Pofrho"," ","/"," ",RowBox[{"rho","^",RowBox[{"(",RowBox[{"1"," ","+"," ",RowBox[
+{"1","/","nStar"}]}],")"}]}]}],",","\n","  ",RowBox[{"Assumptions"," ","->"," ",RowBox[
+{RowBox[{"rho"," ",">"," ","0"}]," ","&&"," ",RowBox[{"D"," ",">"," ","0"}]," ","&&"," ",RowBox[
+{"q"," ",">"," ","0"}]}]}]}],"\n","]"}]}],";"}]}],"\n",RowBox[{RowBox[{RowBox[{"Print","[",RowBox[
+{"\"K* = \"",","," ","KStar"}],"]"}],";"}],"\n"}]}],"Input",CellLabel -> "In[21]:= ",
+ExpressionUUID -> "97042d81-f656-4f71-8220-1369aa3f313a"],Cell[
+BoxData[InterpretationBox[
+RowBox[{"\"K* = \"","\[InvisibleSpace]",RowBox[{FractionBox["8","5"]," ","C"," ",SuperscriptBox[
+"D",RowBox[{RowBox[{"-","5"}],"/","q"}]]}]}],SequenceForm["K* = ",Times[Rational[
+8,5],C,Power[D,Times[-5,Power[q,-1]]]]],Editable -> False],StandardForm],"Print",
+ExpressionUUID -> "f7142acd-64d2-418e-a777-7e7256c3c302"]},Open],ExpressionUUID -> "b2d0b7f4-b507-4e78-b921-51dcbc633576"]},
+StyleDefinitions -> "Default.nb",FrontEndVersion -> "14.3 for Wolfram Cloud 1.75 (December 9, 2025)"]
