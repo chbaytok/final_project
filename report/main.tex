@@ -1,0 +1,898 @@
+\documentclass[aps,twocolumn,showpacs,preprintnumbers,nofootinbib,prl,superscriptaddress,groupedaddress]{revtex4-2}
+
+% --- Packages (kept close to source.tex template style) ---
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{hyperref}
+
+% --- Optional convenience macros (same spirit as the template) ---
+\newcommand{\balign}{\begin{align}}
+\newcommand{\ealign}{\end{align}}
+
+\begin{document}
+
+% --- Front matter (REVTeX style) ---
+\title{PHYS414/514 Final Project:\\ Stars, from Newton to Einstein}
+
+\author{Cafer Halim Baytok}
+\affiliation{Department of Physics, Ko\c{c} University,\\
+Rumelifeneri Yolu, 34450 Sar{\i}yer, Istanbul, Turkey}
+
+\date{January 2026}
+
+\begin{abstract}
+We study the structure of compact stars within Newtonian gravity and general relativity.
+In the Newtonian framework, we derive the Lane--Emden equation for polytropic equations of state,
+analyze its regular solutions, and obtain mass--radius scaling relations. We then compare the
+polytropic predictions with observational white dwarf data and extend the modeling by using the
+full cold degenerate-electron equation of state, solving the Newtonian structure equations by
+direct numerical integration and fitting the equation-of-state parameter $D$ to the data.
+Finally, we model neutron stars in general relativity via the Tolman--Oppenheimer--Volkoff equations,
+compute the mass--radius relation, identify the maximum mass and stability boundary, and quantify
+gravitational binding effects through the proper mass.
+\end{abstract}
+
+\maketitle
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Newton}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Lane--Emden Derivation}
+
+We start from the Newtonian stellar structure equations for a spherically symmetric configuration:
+\begin{equation}
+\frac{dm}{dr}=4\pi r^{2}\rho(r),
+\qquad
+\frac{dp}{dr}=-\frac{Gm(r)\rho(r)}{r^{2}}.
+\end{equation}
+We also assume a polytropic equation of state (EOS)
+\begin{equation}
+p = K\rho^{\gamma}=K\rho^{1+\frac{1}{n}},
+\end{equation}
+where $K$ is a constant and $n$ is the polytropic index.
+
+\subsubsection*{Step 1: Put the equations into a single second-order form}
+
+Starting from hydrostatic equilibrium, divide by $\rho$ and multiply by $r^{2}$:
+\begin{equation}
+\frac{r^{2}}{\rho}\frac{dp}{dr}=-Gm(r).
+\label{eq:r2_over_rho_dpdr}
+\end{equation}
+
+Now differentiate both sides with respect to $r$:
+\begin{equation}
+\frac{d}{dr}\!\left(\frac{r^{2}}{\rho}\frac{dp}{dr}\right)
+=
+-G\frac{dm}{dr}.
+\label{eq:diff_step_eq3}
+\end{equation}
+
+Using mass conservation $\frac{dm}{dr}=4\pi r^{2}\rho$, we obtain
+\begin{equation}
+\frac{d}{dr}\!\left(\frac{r^{2}}{\rho}\frac{dp}{dr}\right)
+=
+-4\pi G r^{2}\rho.
+\label{eq:after_substitution}
+\end{equation}
+
+Finally, divide by $r^{2}$ to arrive at a compact second-order equation:
+\begin{equation}
+\frac{1}{r^{2}}\frac{d}{dr}\!\left(\frac{r^{2}}{\rho}\frac{dp}{dr}\right)
+=
+-4\pi G\rho.
+\label{eq:master_equation}
+\end{equation}
+
+\subsubsection*{Step 2: Use the polytropic EOS to rewrite derivatives}
+
+From
+\begin{equation}
+p(\rho)=K\rho^{1+\frac{1}{n}},
+\end{equation}
+we compute
+\begin{equation}
+\frac{dp}{d\rho}
+=
+K\left(1+\frac{1}{n}\right)\rho^{\frac{1}{n}}
+=
+(n+1)K\,\rho^{\frac{1}{n}}.
+\label{eq:dp_drho}
+\end{equation}
+
+By the chain rule,
+\begin{equation}
+\frac{dp}{dr}
+=
+\frac{dp}{d\rho}\frac{d\rho}{dr}
+=
+(n+1)K\,\rho^{\frac{1}{n}}\frac{d\rho}{dr}.
+\label{eq:dpdr_chain_rule}
+\end{equation}
+
+Therefore,
+\begin{equation}
+\frac{1}{\rho}\frac{dp}{dr}
+=
+(n+1)K\,\rho^{\frac{1}{n}-1}\frac{d\rho}{dr}.
+\label{eq:combo_polytrope}
+\end{equation}
+
+\subsubsection*{Step 3: Introduce dimensionless variables}
+
+Let $\rho_c\equiv\rho(0)$ be the central density, and define a dimensionless function $\theta(\xi)$ via
+\begin{equation}
+\rho(r)=\rho_c\,\theta(\xi)^{n}.
+\label{eq:rho_theta_def}
+\end{equation}
+This implies $\theta(0)=1$.
+
+Next define a dimensionless radius $\xi$ by
+\begin{equation}
+r=a\xi,
+\qquad
+a^{2}\equiv \frac{(n+1)K}{4\pi G}\,\rho_c^{\frac{1}{n}-1}.
+\label{eq:a_def}
+\end{equation}
+
+\subsubsection*{Step 4: Substitute and reduce to Lane--Emden}
+
+Differentiate \eqref{eq:rho_theta_def}:
+\begin{equation}
+\frac{d\rho}{dr}
+=
+\rho_c\,n\,\theta^{n-1}\frac{d\theta}{dr}.
+\end{equation}
+
+Insert this into \eqref{eq:combo_polytrope}. Note that
+\begin{equation}
+\rho^{\frac{1}{n}-1}
+=
+(\rho_c\theta^{n})^{\frac{1}{n}-1}
+=
+\rho_c^{\frac{1}{n}-1}\theta^{1-n}.
+\end{equation}
+Hence
+\begin{equation}
+\frac{1}{\rho}\frac{dp}{dr}
+=
+(n+1)K\,n\,\rho_c^{\frac{1}{n}}\frac{d\theta}{dr}.
+\end{equation}
+
+Plugging into \eqref{eq:master_equation} yields
+\begin{equation}
+(n+1)K\,n\,\rho_c^{\frac{1}{n}}\,
+\frac{1}{r^{2}}\frac{d}{dr}\left(r^{2}\frac{d\theta}{dr}\right)
+=
+-4\pi G\rho_c\theta^{n}.
+\end{equation}
+Divide both sides by $(n+1)K\,n\,\rho_c^{\frac{1}{n}}$:
+\begin{equation}
+\frac{1}{r^{2}}\frac{d}{dr}\left(r^{2}\frac{d\theta}{dr}\right)
+=
+-\frac{4\pi G\rho_c}{(n+1)K\,n\,\rho_c^{\frac{1}{n}}}\,\theta^{n}.
+\end{equation}
+
+Now use $r=a\xi$ and $d/dr=(1/a)\,d/d\xi$. Then
+\begin{equation}
+\frac{1}{r^{2}}\frac{d}{dr}\left(r^{2}\frac{d\theta}{dr}\right)
+=
+\frac{1}{a^{2}\xi^{2}}
+\frac{d}{d\xi}\left(\xi^{2}\frac{d\theta}{d\xi}\right).
+\end{equation}
+With the choice of $a$ in \eqref{eq:a_def}, the prefactor becomes exactly $-1$, and we obtain the Lane--Emden equation:
+\begin{equation}
+\frac{1}{\xi^{2}}
+\frac{d}{d\xi}\left(\xi^{2}\frac{d\theta}{d\xi}\right)
++
+\theta^{n}
+=
+0.
+\label{eq:lane_emden}
+\end{equation}
+
+The central boundary condition is
+\begin{equation}
+\theta(0)=1.
+\end{equation}
+
+\subsection{Series Expansion at the Center and Regularity}
+
+After deriving the Lane--Emden equation in dimensionless form,
+\begin{equation}
+\frac{1}{\xi^{2}}\frac{d}{d\xi}\!\left(\xi^{2}\frac{d\theta}{d\xi}\right)
++ \theta^{n} = 0,
+\end{equation}
+the behavior of the solution near the center $\xi = 0$ must be analyzed.
+Although the equation appears singular due to the explicit $1/\xi^{2}$ factor,
+this singularity is not physical. A physically acceptable solution must remain
+finite and smooth at the center.
+
+To study the regular behavior, we expand the solution around $\xi = 0$ as a
+power series using \textit{Mathematica}. Regularity excludes odd powers of $\xi$, since such terms would
+produce a nonvanishing first derivative at the origin and lead to divergent
+contributions through the $(2/\xi)\theta'(\xi)$ term. Therefore, the expansion
+must contain only even powers of $\xi$:
+\begin{equation}
+\theta(\xi) = 1 + a\,\xi^{2} + b\,\xi^{4} + \mathcal{O}(\xi^{6}),
+\end{equation}
+where the normalization $\theta(0)=1$ has been imposed.
+
+Substituting this expansion into the Lane--Emden equation and matching powers
+of $\xi$ order by order uniquely determines the coefficients. At leading order,
+one finds
+\begin{equation}
+a = -\frac{1}{6},
+\end{equation}
+while the next-order coefficient depends explicitly on the polytropic index $n$,
+\begin{equation}
+b = \frac{n}{120}.
+\end{equation}
+Hence, the regular solution near the center behaves as
+\begin{equation}
+\boxed{
+\theta(\xi) =
+1 - \frac{\xi^{2}}{6}
++ \frac{n}{120}\,\xi^{4}
++ \mathcal{O}(\xi^{6})
+}.
+\end{equation}
+From this expansion it follows immediately that
+\begin{equation}
+\theta'(0) = 0,
+\end{equation}
+which is not imposed as an independent boundary condition, but arises
+naturally from the requirement of regularity at the center.
+
+\subsection{Analytic Solution for \texorpdfstring{$n=1$}{n=1}}
+
+For the special case $n=1$, the Lane--Emden equation admits an exact analytic
+solution. Solving the equation yields
+\begin{equation}
+\theta(\xi) = \frac{\sin \xi}{\xi},
+\end{equation}
+which is manifestly regular at the origin. Expanding this solution around
+$\xi = 0$ gives
+\begin{equation}
+\frac{\sin \xi}{\xi}
+=
+1 - \frac{\xi^{2}}{6}
++ \frac{\xi^{4}}{120}
++ \mathcal{O}(\xi^{6}).
+\end{equation}
+This expansion exactly reproduces the general series solution obtained above
+for $n=1$, confirming the consistency between the series analysis and the
+exact analytic solution.
+
+\subsection{Mass at the Surface and the Mass--Radius Relation}
+
+If the Lane--Emden variables are introduced correctly, one has
+\begin{equation}
+\rho(r)=\rho_c\,\theta(\xi)^n,\qquad r=a\xi,
+\end{equation}
+and the stellar surface corresponds to the first zero $\xi_n$ such that
+\begin{equation}
+\theta(\xi_n)=0 \iff \rho(R)=0,
+\qquad R=a\xi_n.
+\end{equation}
+
+\subsubsection{Derivation of the total mass formula}
+
+The enclosed mass is
+\begin{equation}
+m(r)=4\pi\int_0^r r'^2\rho(r')\,dr'.
+\end{equation}
+Changing variables to $\xi$ using $r=a\xi$ and $dr=a\,d\xi$ gives
+\begin{equation}
+m(\xi)=4\pi a^3\rho_c \int_0^\xi \xi'^2\theta(\xi')^n\,d\xi'.
+\end{equation}
+Thus the total mass is
+\begin{equation}
+M=m(\xi_n)=4\pi a^3\rho_c \int_0^{\xi_n} \xi'^2\theta(\xi')^n\,d\xi'.
+\end{equation}
+
+Now use the Lane--Emden equation
+\begin{equation}
+\frac{1}{\xi^2}\frac{d}{d\xi}\!\left(\xi^2\theta'(\xi)\right)+\theta(\xi)^n=0
+\Longrightarrow
+\theta(\xi)^n=-\frac{1}{\xi^2}\frac{d}{d\xi}\!\left(\xi^2\theta'(\xi)\right).
+\end{equation}
+Multiplying by $\xi^2$ and integrating from $0$ to $\xi_n$ yields
+\begin{equation}
+\int_0^{\xi_n}\xi^2\theta(\xi)^n\,d\xi
+=
+-\Bigl[\xi^2\theta'(\xi)\Bigr]_{0}^{\xi_n}.
+\end{equation}
+Regularity at the center implies $\xi^2\theta'(\xi)\to 0$ as $\xi\to 0$, hence
+\begin{equation}
+\int_0^{\xi_n}\xi^2\theta(\xi)^n\,d\xi
+=
+-\xi_n^2\theta'(\xi_n).
+\end{equation}
+Therefore,
+\begin{equation}
+M
+=
+4\pi a^3\rho_c\bigl(-\xi_n^2\theta'(\xi_n)\bigr).
+\end{equation}
+Using $R=a\xi_n$ (so that $a^3\xi_n^2=R^3/\xi_n$), we obtain the required form:
+\begin{equation}
+\boxed{
+M=4\pi\rho_c R^3\left(-\frac{\theta'(\xi_n)}{\xi_n}\right).
+}
+\end{equation}
+
+\subsubsection{Mass--radius scaling for fixed polytropic EOS}
+
+For a polytropic EOS, the Lane--Emden scaling length satisfies
+\begin{equation}
+a^2=\frac{(n+1)K}{4\pi G}\,\rho_c^{\frac{1}{n}-1}.
+\end{equation}
+Hence the radius scales as
+\[
+R=a\xi_n \propto a \propto K^{1/2}\,\rho_c^{\frac{1}{2}\left(\frac{1}{n}-1\right)}
+=K^{1/2}\,\rho_c^{\frac{1-n}{2n}}.
+\]
+From the mass formula above (or directly from $M\propto \rho_c a^3$), the mass scales as
+\[
+M \propto \rho_c a^3 \propto \rho_c\,K^{3/2}\,\rho_c^{\frac{3(1-n)}{2n}}
+=K^{3/2}\,\rho_c^{\frac{3-n}{2n}}.
+\]
+Eliminating $\rho_c$ between these two relations gives
+\begin{equation}
+\boxed{
+M \propto R^{\frac{3-n}{1-n}}.
+}
+\end{equation}
+
+\paragraph{Constant of proportionality.}
+Solving the radius relation for $\rho_c$,
+\begin{equation}
+\rho_c=\left[\frac{4\pi G}{(n+1)K}\,\frac{R^2}{\xi_n^2}\right]^{\!\frac{n}{1-n}},
+\end{equation}
+and substituting into
+\begin{equation}
+M=4\pi\rho_c R^3\left(-\theta'(\xi_n)/\xi_n\right)
+\end{equation}
+yields
+\begin{equation}
+\boxed{
+M
+=
+\left[
+4\pi\left(-\theta'(\xi_n)\right)\xi_n^{-\frac{1+n}{\,1-n\,}}
+\left(\frac{4\pi G}{n+1}\right)^{\!\frac{n}{1-n}}
+\right]
+K^{-\frac{n}{1-n}}
+\,
+R^{\frac{3-n}{1-n}}.
+}
+\end{equation}
+The bracketed factor depends only on $n$ through the Lane--Emden constants
+$\xi_n$ and $\theta'(\xi_n)$, and on $G$.
+
+\subsection{White Dwarf Data and the Observed Mass--Radius Relation}
+
+In order to compare theoretical predictions with observations, we first analyze
+the white dwarf (WD) data provided in the file \texttt{white\_dwarf\_data.csv}.
+For each object, the data set contains the stellar mass in units of the solar
+mass and the base--10 logarithm of the surface gravity, $\log g$, in CGS units.
+
+The stellar radius is obtained from the definition of the surface gravity,
+\begin{equation}
+g = \frac{G M}{R^2},
+\end{equation}
+which allows us to compute the radius $R$ once the mass $M$ and $g$ are known.
+Throughout this analysis, masses are expressed in units of the solar mass
+$M_\odot$, while radii are expressed in units of the Earth radius $R_\oplus$,
+as suggested in the project description.
+
+Using this procedure, we convert the observational data into a set of
+$(M, R)$ pairs and construct the mass--radius diagram for the white dwarf
+sample. Figure~\ref{fig:mr_linear} shows the resulting $M$--$R$ relation in
+linear scale. The plot clearly demonstrates the inverse correlation between
+mass and radius that is characteristic of white dwarfs: more massive white
+dwarfs have smaller radii, reflecting the role of electron degeneracy pressure.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.95\columnwidth]{mr_linear.png}
+\caption{Observed mass--radius relation for the white dwarf sample in linear
+scale. Masses are shown in units of $M_\odot$ and radii in units of $R_\oplus$.}
+\label{fig:mr_linear}
+\end{figure}
+
+To better reveal possible power--law behavior, the same data are also shown
+in logarithmic scale. Figure~\ref{fig:mr_loglog} displays the mass--radius
+relation in a log--log plot. In this representation, the low--mass end of the
+distribution is well approximated by a straight line, indicating an underlying
+power--law relation between mass and radius. This behavior is expected from
+polytropic models and motivates the low--mass approximation discussed in the
+next section.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.95\columnwidth]{mr_loglog.png}
+\caption{Log--log plot of the observed white dwarf mass--radius relation.
+The approximately linear trend at low masses suggests a power--law behavior.}
+\label{fig:mr_loglog}
+\end{figure}
+
+\subsection{Low-Mass Approximation and Effective Polytropic Index}
+
+In the low-mass regime, white dwarfs are well described by a polytropic
+equation of state,
+\begin{equation}
+P = K^* \rho^{\gamma^*},
+\qquad
+\gamma^* = 1 + \frac{1}{n^*},
+\label{eq:poly_eos}
+\end{equation}
+where $n^*$ is an effective polytropic index and $K^*$ is a constant.
+
+For a polytropic star, the Lane--Emden scalings imply a power-law relation
+between the stellar mass and radius,
+\begin{equation}
+M \propto R^{\frac{3-n^*}{1-n^*}}.
+\label{eq:mr_polytrope}
+\end{equation}
+Equivalently, this relation can be written in the form
+\begin{equation}
+R \propto M^{\alpha},
+\label{eq:R_M_alpha}
+\end{equation}
+with the slope
+\begin{equation}
+\alpha = \frac{1-n^*}{3-n^*}.
+\label{eq:alpha_nstar}
+\end{equation}
+Solving for the effective polytropic index yields
+\begin{equation}
+\boxed{
+n^* = \frac{1 - 3\alpha}{1 - \alpha}.
+}
+\label{eq:nstar_alpha}
+\end{equation}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.95\columnwidth]{mr_lowmass_fit_loglog.png}
+\caption{Low-mass subset in log--log space with best-fit power law
+$R=C\,M^{\alpha}$. The fit gives $\alpha=-0.3108$, implying
+$n^*=1.474$ via Eq.~\eqref{eq:nstar_alpha}.}
+\label{fig:C_lowmass_fit}
+\end{figure}
+
+Using the low-mass subset of the white dwarf data, a linear fit is performed
+in log--log space according to Eq.~\eqref{eq:R_M_alpha}. The resulting slope
+$\alpha$ determines the effective polytropic index $n^*$ via
+Eq.~\eqref{eq:nstar_alpha}. From the fit, we obtain
+\begin{equation}
+\alpha = -0.311,
+\qquad
+n^* = 1.47,
+\qquad
+\gamma^* = 1.68.
+\end{equation}
+
+The project further relates the effective index $n^*$ to the parameter $q$
+appearing in the microscopic equation of state through
+\begin{equation}
+n^* = \frac{q}{5 - q}.
+\label{eq:q_relation}
+\end{equation}
+Using the fitted value of $n^*$, we find $q \simeq 3$, consistent with the
+theoretical expectation that $q$ is an integer.
+
+Finally, the effective polytropic constant $K^*$ is inferred from the
+normalization of the mass--radius relation. For the low-mass sample, we find
+\begin{equation}
+\log_{10} K^* \simeq 12.39,
+\end{equation}
+with a relatively small scatter.
+
+\subsection{Newtonian White Dwarfs with the Full Degenerate-Electron EOS}
+
+In the low-mass regime the white dwarf EOS can be approximated by an effective
+polytrope, but across the full density range we must use the full cold
+degenerate-electron EOS,
+\begin{equation}
+\begin{aligned}
+P(\rho)= C\left[x(2x^2-3)\sqrt{x^2+1}+3\sinh^{-1}(x)\right],
+\\
+x=\left(\frac{\rho}{D}\right)^{1/q}.
+\end{aligned}
+\label{eq:fullEOS}
+\end{equation}
+
+From the low-mass analysis we obtain
+\begin{equation}
+\begin{aligned}
+\gamma^* = 1.67835,
+\\
+q = 2.97911 \simeq 3,
+\\
+K^* = 2.48499\times 10^{12}\ \text{(cgs)}.
+\end{aligned}
+\end{equation}
+Using the low-density expansion (polytropic limit), the EOS parameters satisfy
+\begin{equation}
+K^* = \frac{8C}{5D^{5/q}}.
+\label{eq:Kstar_relation}
+\end{equation}
+This produces
+\begin{equation}
+C = 6.00233\times 10^{22}\ \text{(cgs)},
+\qquad
+\log_{10}C = 22.7783.
+\end{equation}
+We also obtain two consistent estimates for $D$:
+\begin{equation}
+\begin{aligned}
+D_{\rm theory} &= 1.94786\times 10^{6}\ \text{g/cm}^3, \\
+D_{\rm from\ }K^* &= 2.03253\times 10^{6}\ \text{g/cm}^3,
+\end{aligned}
+\end{equation}
+with agreement at the few-percent level
+($D_{\rm from\ }K^*/D_{\rm theory}=1.0435$).
+
+\subsection{Direct numerical integration (no Lane--Emden)}
+
+Because Eq.~\eqref{eq:fullEOS} is not globally polytropic, the Lane--Emden
+reduction is not applicable. Instead we solve the Newtonian structure equations
+directly:
+\begin{equation}
+\frac{dm}{dr}=4\pi r^2\rho,
+\qquad
+\frac{dP}{dr}=-\frac{Gm\rho}{r^2}.
+\label{eq:newton_struct}
+\end{equation}
+For each chosen central density $\rho_c$, we integrate outward from
+\begin{equation}
+m(0)=0,
+\qquad
+\rho(0)=\rho_c,
+\end{equation}
+using Eq.~\eqref{eq:fullEOS} to convert between $P$ and $\rho$ during the
+integration. The integration is stopped when $\rho(r)$ reaches zero; this
+defines the stellar radius $R$ and total mass $M$.
+For example, for $\rho_c = 10^6\ \text{g/cm}^3$ we obtain
+\begin{equation}
+\frac{M}{M_\odot}=0.3544,
+\qquad
+\frac{R}{R_\odot}=0.01492.
+\end{equation}
+
+\subsection{Fitting $D$ to the observed $M$--$R$ data}
+
+The observational sample contains $N=378$ stars spanning
+\begin{equation}
+R/R_\odot \in [0.00332,\ 0.02379],
+\qquad
+M/M_\odot \in [0.074,\ 1.38].
+\end{equation}
+For a fixed trial value of $D$, we compute a model $M$--$R$ curve by sampling
+a set of central densities $\rho_c$ and generating points
+$(R(\rho_c),M(\rho_c))$. We then interpolate the model curve to evaluate
+$M_{\rm model}(R_i)$ at each observed radius $R_i$ and define an RMS error
+\begin{equation}
+\mathrm{RMS}(D)=\sqrt{\frac{1}{N}\sum_{i=1}^N\left[M_{\mathrm{model}}(R_i;D)-M_i\right]^2}.
+\end{equation}
+
+We performed a coarse scan over $D$ (ten values) followed by a refined scan
+around the minimum. The coarse scan already shows a pronounced minimum near
+$D\approx 2.0\times 10^6\ \text{g/cm}^3$; the smallest coarse RMS occurs at
+\begin{equation}
+D=1.96478\times 10^6\ \text{g/cm}^3
+\quad\text{with}\quad
+\mathrm{RMS}=9.39\times 10^{-3}.
+\end{equation}
+Refining around this region yields the best-fit value
+\begin{equation}
+\boxed
+{
+D_{\mathrm{best}} = 1.95823\times 10^{6}\ \text{g/cm}^3,
+\qquad
+\mathrm{RMS}_{\mathrm{best}} = 9.89\times 10^{-3}.
+}
+\end{equation}
+This best-fit value is consistent with the theoretical expectation:
+\begin{equation}
+\frac{D_{\rm best}}{D_{\rm theory}}=1.0053.
+\end{equation}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.98\columnwidth]{wd_data_vs_model.png}
+\caption{Observed white dwarf mass--radius data compared with the Newtonian
+full-EOS model evaluated at the best-fit parameter $D_{\rm best}$.}
+\label{fig:data_vs_model}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.98\columnwidth]{wd_mr_curve_bestD.png}
+\caption{Newtonian mass--radius curve generated using the full EOS at the
+best-fit value $D_{\rm best}$ by scanning over central density.}
+\label{fig:mr_curve_bestD}
+\end{figure}
+
+\subsection{High-density limit and maximum mass in the scan}
+
+At high densities the EOS approaches the relativistic degenerate limit, for
+which the effective adiabatic index tends toward $\gamma\to 4/3$.
+Numerically, the effective index inferred at high densities approaches
+\begin{equation}
+\gamma_{\rm eff}\approx 1.34\text{--}1.37,
+\end{equation}
+consistent with the expected trend toward $4/3$.
+
+Scanning over sufficiently large $\rho_c$ produces an upper envelope in the
+Newtonian full-EOS mass--radius curve. The maximum mass reported from our
+(best-fit $D$) scan is
+\begin{equation}
+M_{\max} \approx 1.51\,M_\odot
+\quad \text{at} \quad
+\rho_c \approx 3.16\times 10^{9}\ \text{g/cm}^3,
+\end{equation}
+within the explored range of $\rho_c$.
+
+\subsection{Existence of a Maximum Mass and the Chandrasekhar Limit}
+
+The numerical integration of the Newtonian stellar structure equations using
+the full degenerate-electron equation of state produces a complete mass--radius
+relation for white dwarfs. Figure~\ref{fig:fullMR_bestD} shows the resulting
+$M(R)$ curve obtained by scanning the central density in the range
+$\rho_c \in [10^{4},10^{10}]\ \mathrm{g/cm^3}$ using the best-fit value
+$D_{\rm best}$. The curve exhibits a clear maximum mass,
+\begin{equation}
+M_{\max} \simeq 1.57\,M_\odot,
+\end{equation}
+beyond which increasing the central density leads to decreasing stellar
+radius without further increase in mass.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.98\columnwidth]{wd_mr_curve_bestD_bigger_scale.png}
+\caption{Full Newtonian mass--radius relation for white dwarfs obtained using
+the full degenerate-electron EOS at the best-fit value $D_{\rm best}$. The curve
+shows the emergence of a maximum mass at high central density.}
+\label{fig:fullMR_bestD}
+\end{figure}
+
+The existence of this maximum mass can be understood analytically by examining
+the ultra-relativistic limit of the equation of state. In the limit $x \gg 1$,
+a series expansion of the EOS yields the
+leading-order behavior
+\begin{equation}
+P(\rho) \simeq \frac{2C}{D^{4/3}}\,\rho^{4/3},
+\end{equation}
+which corresponds to a polytropic equation of state with index $n=3$.
+
+The constants appearing in the EOS are given by
+\begin{equation}
+C = \frac{m_e^4 c^5}{24\pi^2 \hbar^3},
+\qquad
+D = \frac{\mu_e m_u m_e^3 c^3}{3\pi^2 \hbar^3},
+\end{equation}
+where $m_e$ is the electron mass, $m_u$ is the atomic mass unit, and $\mu_e$ is
+the number of nucleons per electron.
+
+For an $n=3$ polytrope, the total mass is independent of the central density.
+Using the polytropic mass formula, the Chandrasekhar mass can be written as
+\begin{equation}
+M_{\rm Ch}
+= 4\pi\,\omega_3
+\left(
+\frac{4}{4\pi G}
+\frac{2C}{D^{4/3}}
+\right)^{3/2},
+\end{equation}
+where $\omega_3 = -\xi_1^2 \theta'(\xi_1)$ is the Lane--Emden constant for
+$n=3$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Neutron Stars in General Relativity}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Relativistic stellar structure and TOV equations}
+
+In the relativistic regime, hydrostatic equilibrium must be described within
+general relativity. Assuming a static, spherically symmetric spacetime and a
+perfect-fluid stress--energy tensor, the stellar interior is governed by the
+Tolman--Oppenheimer--Volkoff (TOV) equations,
+\begin{align}
+\frac{dm}{dr} &= 4\pi r^2 \rho, \label{eq:tov_mass} \\
+\frac{dP}{dr} &=
+-\frac{G}{r^2}
+\frac{\left(\rho+\frac{P}{c^2}\right)
+\left(m+4\pi r^3\frac{P}{c^2}\right)}
+{1-\frac{2Gm}{rc^2}} .
+\label{eq:tov_pressure}
+\end{align}
+Compared to the Newtonian hydrostatic equilibrium equation, relativistic
+corrections arise from three distinct effects: (i) pressure contributes to the
+inertial mass density, (ii) pressure contributes directly to the gravitational
+field, and (iii) strong-field corrections enter through the redshift factor
+$1-2Gm/(rc^2)$.
+
+Given an equation of state $P(\rho)$, Eqs.~\eqref{eq:tov_mass} and
+\eqref{eq:tov_pressure} are integrated outward from a chosen central density
+$\rho_c$ with initial conditions
+\begin{equation}
+m(0)=0, \qquad \rho(0)=\rho_c .
+\end{equation}
+The integration is terminated at the radius $R$ where $P(R)=0$, defining the
+stellar radius and the gravitational mass $M=m(R)$. Repeating this procedure for
+a range of central densities produces a family of equilibrium configurations.
+
+\subsection{Mass--radius relation and existence of a maximum mass}
+
+The mass--radius relation obtained from the numerical integration of the TOV
+equations is shown in Fig.~\ref{fig:tov_mr}. Unlike the Newtonian case, the
+relativistic $M(R)$ curve exhibits a clear maximum mass. From the numerical
+results, we find
+\begin{equation}
+\begin{aligned}
+M_{\max} \simeq 0.084\,M_\odot
+\quad \text{at}\\
+R \simeq 12~\mathrm{km},
+\quad
+\rho_c \simeq 1.0\times 10^{18}\ \mathrm{kg/m^3}.
+\end{aligned}
+\end{equation}
+Beyond this point, increasing the central density no longer increases the total
+mass. This behavior is a direct consequence of relativistic gravity: at high
+compactness, the gravitational role of pressure and spacetime curvature
+outweighs the additional support provided by increasing density.
+\begin{figure}
+\centering
+\includegraphics[width=0.98\columnwidth]{tov_mr_curve.png}
+\caption{Neutron star mass--radius relation obtained from the TOV equations
+using the adopted equation of state.}
+\label{fig:tov_mr}
+\end{figure}
+
+\subsection{Stability analysis from the mass--central-density relation}
+
+The stability of relativistic stellar configurations can be assessed using the
+turning-point criterion. Along the stable branch of solutions, increasing the
+central density leads to an increase in the total mass, corresponding to
+$dM/d\rho_c>0$. At the maximum mass, $dM/d\rho_c=0$, and for larger central
+densities the slope becomes negative, signaling the onset of instability. This
+criterion is confirmed by the numerical $M(\rho_c)$ relation and the associated
+stability classification shown in Fig.~\ref{fig:tov_stability}. The maximum mass
+therefore marks the boundary between stable and unstable neutron star
+configurations.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.98\columnwidth]{tov_stability.png}
+\caption{Stability of TOV solutions classified according to the sign of
+$dM/d\rho_c$.}
+\label{fig:tov_stability}
+\end{figure}
+
+\subsection{Gravitational binding energy and proper mass}
+
+In general relativity, the gravitational mass $M$ differs from the proper (rest)
+mass $M_P$ due to gravitational binding. The proper mass is obtained by
+integrating the rest-mass density over the proper volume,
+\begin{equation}
+M_P = \int_0^R 4\pi r^2 \rho(r)
+\left(1-\frac{2Gm(r)}{rc^2}\right)^{-1/2} dr .
+\end{equation}
+The fractional binding energy is defined as
+\begin{equation}
+\Delta = \frac{M_P - M}{M}.
+\end{equation}
+Figure~\ref{fig:tov_binding} shows that more compact stars exhibit larger
+binding energy, reflecting the increasing importance of relativistic effects.
+The smooth relation between $M$ and $M_P$ shown in
+Fig.~\ref{fig:tov_M_vs_Mp} provides an internal consistency check of the
+numerical integration.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.98\columnwidth]{tov_binding.png}
+\caption{Fractional binding energy as a function of stellar radius.}
+\label{fig:tov_binding}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.92\columnwidth]{tov_M_vs_Mp.png}
+\caption{Gravitational mass versus proper mass for the TOV sequence.}
+\label{fig:tov_M_vs_Mp}
+\end{figure}
+
+\subsection{Interior metric and exterior Schwarzschild matching}
+
+The spacetime metric inside the star is described by the function $\nu(r)$,
+which satisfies
+\begin{equation}
+\frac{d\nu}{dr}
+=
+\frac{2G}{c^2}
+\frac{m(r)+4\pi r^3 P(r)/c^2}
+{r^2\left(1-\frac{2Gm(r)}{rc^2}\right)} .
+\end{equation}
+The integration constant corresponds to a rescaling of the time coordinate and
+is fixed by matching the interior solution to the exterior spacetime. The
+numerical interior solution for $\nu(r)$ matches smoothly to the exterior
+Schwarzschild solution at the stellar surface. The central gravitational time
+dilation is quantified by $e^{\nu(0)/2}\simeq 0.96$.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.98\columnwidth]{tov_metric.png}
+\caption{Metric function $\nu(r)$ for the interior solution matched to the
+exterior Schwarzschild spacetime at the stellar radius.}
+\label{fig:tov_metric}
+\end{figure}
+
+Outside the star there is no matter, so that $P(r>R)=0$ and $m(r>R)=M$. In this
+region, the remaining Einstein equation reduces to
+\begin{equation}
+\nu'(r) = \frac{2M}{r(r-2M)}, \qquad r>R .
+\end{equation}
+Using \textit{Mathematica}, this equation can be integrated analytically.
+Imposing the continuity of $\nu(r)$ in $r=R$ yields
+\begin{equation}
+\nu(r>R)
+=
+\ln\!\left(1-\frac{2M}{r}\right)
+-
+\ln\!\left(1-\frac{2M}{R}\right)
++
+\nu(R),
+\end{equation}
+confirming that the numerical interior solution matches the analytic exterior
+Schwarzschild metric.
+
+\subsection{Dependence of the maximum mass on EOS stiffness}
+
+Finally, the sensitivity of the maximum mass to the stiffness of the equation
+of state was investigated by rescaling the EOS normalization parameter $K$.
+Repeating the TOV integration for different values of the scaling parameter
+$K_{\rm scale}$ yields the relation shown in
+Fig.~\ref{fig:tov_k_scaling}. The stiffer state equations support larger maximum
+masses; from the numerical results, a minimum scaling
+$K_{\rm scale}\simeq 11.6$ is required to obtain
+$M_{\max}\gtrsim 2.5\,M_\odot$..
+
+\begin{figure}
+\centering
+\includegraphics[width=0.98\columnwidth]{tov_Mmax_vs_Kscale.png}
+\caption{Maximum neutron star mass as a function of EOS stiffness scaling
+parameter $K_{\rm scale}$.}
+\label{fig:tov_k_scaling}
+\end{figure}
+\f
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this project, we studied the structure of compact stars using both Newtonian
+gravity and general relativity. In the Newtonian framework, we derived the
+Lane--Emden equation for polytropic equations of state and analyzed its
+solutions. We examined the regularity of the solution at the center, obtained
+the mass--radius scaling relations, and compared these theoretical predictions
+with observational white dwarf data. Using the full equation of state, we
+performed direct numerical integrations of the Newtonian structure equations
+and constructed a complete mass--radius relation, which exhibits a maximum
+mass.
+
+In the relativistic part, we modeled neutron stars using the
+Tolman--Oppenheimer--Volkoff equations. The resulting mass--radius relation
+shows a clear maximum mass and a transition from stable to unstable
+configurations, illustrating the impact of relativistic gravity. We also
+verified that the interior metric matches smoothly with the exterior
+Schwarzschild solution.
+
+% \bibliography{references}
+
+\end{document}
